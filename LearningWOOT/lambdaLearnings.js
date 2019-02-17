@@ -63,7 +63,7 @@ an output. This is used to simplify complicated applications.
     x with 3 which returns 3. 
 
     Another way of saying replace all instances of x with three is through the following notation:
-     λx[x:=3]
+     x[x:=3]
 
      When we are substituting we move left to right so in addLambdaNotation, when we call the function
      and pass in numbers as follows: */
@@ -146,14 +146,16 @@ and we need a strategy to solve this nondeterminism.
             Def value: λ term for which no B reductions are possible 
             Under CBV, functions may only be called on values-- args must be fully evaluated
 
+=======> CBN (defer evaluation of arguments until as late as possible) 
+            reduce: (λx.succx)((λy.succy)3)
+            Answer: succ((λy.succy)3) --> succ(succ(3)) --> succ4 --> 5
+
 =======> CBV reduction where we consider 3 and succ (the successor function) to be primitive constants
             reduce: (λx.succx)((λy.succy)3)
             Answer: (λx.succx)((λy.succy)3) -1-> (λx.succx)succ3 -1-> (λx.succx)4 -1-> succ4 -1-> 5
 
 
-=======> CBN (defer evaluation of arguments until as late as possible) 
-            reduce: (λx.succx)((λy.succy)3)
-            Answer: succ((λy.succy)3) --> succ(succ(3)) --> succ4 --> 5
+
 
 Return to favorite reading to review equivalence
 
@@ -203,7 +205,6 @@ https://www.cs.rochester.edu/~brown/173/lectures/functional/lambda/Lambda1.html
 https://courses.cs.washington.edu/courses/cse505/99au/functional/applicative-normal.pdf
 
 Need to study more in depth:
-Turing Machines
 Lambda calc with recursion review
 More on call by value and call by name
 
