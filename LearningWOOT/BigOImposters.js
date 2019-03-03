@@ -53,13 +53,12 @@ public static void sayHiNTimes(int n) {
 }
 This is O(n) even though the input is an integer
 
-
 This is like O(2n) but we throw out the constants and just say O(n)
 public static void printAllItemsTwice(int[] items) {
     for (int item : items) {
         System.out.println(item);
     }
-    
+
     for (int item : items) {
         System.out.println(item);
     }
@@ -94,6 +93,50 @@ comparison: if we usd O(n) to scan our list we would have had to do n = 5
 operations, but by splitting be brought number of operations to 3
     might think that splitting and evaluating is 2 operations but they are 2 
     O(1) operations so we consider that to be O(1)
+
+
+****rethink O(N^2) with O(n log n)*******
+what is the big O of using our binary search inside of our linear scan?
+    ==> revisited in later chapter
+
+
+What is we knew there was only one duplicate number in const nums = [1, 2, 3, 4, 4, 5]?
+    further adapt O(n log n) algorithm
+
+*/
+const array1 = [1, 2, 3, 4, 4, 5];
+
+const findDuplicate = array => {
+  const lastNum = array[array.length - 1];
+  const noDupVal = lastNum * ((lastNum + 1) / 2);
+
+  let arraySum = 0;
+  for (num in array) {
+    arraySum += array[num];
+  }
+
+  return arraySum - noDupVal;
+};
+
+console.log(findDuplicate(array1));
+
+/*
+Review:
+random access to a given element is always O(1)
+
+list iterations always O(n)
+
+nested loops always O(n^2)
+
+divide and conquer always O(logn)
+
+iterations that use divide and conquer always O(nlogn) => like looping a list
+
+Space complexity vs. time complexity
+
+
+http://bigocheatsheet.com/
+https://www.hackerearth.com/practice/basic-programming/complexity-analysis/time-and-space-complexity/tutorial/
 
 
 */
