@@ -114,36 +114,23 @@ let sortedArray = sortArray(["b", "a", "c", "z", "d", "a", "m", "b", "l"]);
 
 //strings immutable
 const sortString = string => {
-  console.log(string);
   let swapped = false;
-  let newString = "";
-  //console.log(string.length);
+  let newString = string;
   for (i = 1; i < string.length; i++) {
-    const firstElement = string.charAt(i - 1);
-    //console.log("firstelement: " + firstElement);
-    const secondElement = string.charAt(i);
-    //console.log("secondelement: " + secondElement);
-    console.log(firstElement.charCodeAt(0));
-    console.log(secondElement.charCodeAt(0));
-    // if (firstElement.charCodeAt(0) > secondElement.charCodeAt(0)) {
-    //   console.log(firstElement.charCodeAt(0));
-    //   console.log(secondElement.charCodeAt(0));
-    //   newString += secondElement;
-    //   //console.log(newString);
-    //   newString += firstElement;
-    //   // console.log(newString);
-    //   swapped = true;
-    // } else {
-    //   console.log("else entered");
-    //   newString += secondElement;
-    // }
+    const firstElement = newString.charAt(i - 1);
+    const secondElement = newString.charAt(i);
+    if (firstElement.charCodeAt(0) > secondElement.charCodeAt(0)) {
+      let spliceBefore = newString.slice(0, i - 1);
+      let spliceAfter = newString.slice(i + 1);
+      newString = spliceBefore + secondElement + firstElement + spliceAfter;
+      swapped = true;
+    }
   }
-  //   if (swapped) {
-  //     console.log(newString);
-  //     return sortString(newString);
-  //   } else {
-  //     return newString;
-  //   }
+  if (swapped) {
+    return sortString(newString);
+  } else {
+    return newString;
+  }
 };
 
-console.log(sortString("bcalsd"));
+console.log(sortString("cbalsdaez"));
