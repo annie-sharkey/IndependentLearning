@@ -145,4 +145,95 @@ add the values of first string and subtract vals of second
 string and end when negative
 
 
+
+**********1.3 URLify********** ==> replace all spaces in a string with '%20'
+length of string ends at last character ==> ignore extra spaces after
 */
+
+const replaceSpaces = (string, length) => {
+  if (string.length == 0) {
+    return string;
+  }
+
+  let newString = "";
+  for (i = 0; i < length; i++) {
+    if (string.charAt(i) == " ") {
+      newString += "%20";
+    } else {
+      newString += string.charAt(i);
+    }
+  }
+
+  return newString;
+};
+
+//console.log(replaceSpaces("Annie Conway Sharkey      ", 20));
+
+//*********1.4 Palindrome*****************
+//given a string check if it is a permutation of a palindrome
+
+//for each permutation
+//check if that is a palindrome
+//if it is return true
+
+/*
+const permPalin = string => {
+    const noSpaces = string.split(" ").join("");
+    for 
+}
+*/
+
+const perm = string => {
+  let permutations = [];
+  if (string.length === 1) {
+    console.log("string returned: " + string);
+    return string;
+  }
+  //   if (string.length === 2) {
+  //     return string[1] + string[0];
+  //   }
+
+  for (var i = 0; i < string.length; i++) {
+    var firstChar = string[i];
+    //console.log("firstChar")
+    var leftoverStr = string.substring(0, i) + string.substring(i + 1);
+    console.log("leftover string: " + leftoverStr);
+    permutations.push(firstChar + perm(leftoverStr));
+  }
+  return permutations;
+};
+
+console.log(perm("abc"));
+
+const palindrome = string => {
+  const noSpaces = string.split(" ").join("");
+  for (var i = 0; i < noSpaces.length / 2; i++) {
+    if (
+      noSpaces.charCodeAt(i) != noSpaces.charCodeAt(noSpaces.length - 1 - i)
+    ) {
+      return false;
+    }
+  }
+  return true;
+};
+
+function getAllPermutations(string) {
+  var results = [];
+
+  if (string.length === 1) {
+    results.push(string);
+    return results;
+  }
+
+  for (var i = 0; i < string.length; i++) {
+    var firstChar = string[i];
+    var charsLeft = string.substring(0, i) + string.substring(i + 1);
+    var innerPermutations = getAllPermutations(charsLeft);
+    for (var j = 0; j < innerPermutations.length; j++) {
+      results.push(firstChar + innerPermutations[j]);
+    }
+  }
+  return results;
+}
+
+console.log(getAllPermutations("abcd"));
