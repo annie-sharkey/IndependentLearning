@@ -183,27 +183,32 @@ const permPalin = string => {
 }
 */
 
+// reference at end https://initjs.org/all-permutations-of-a-set-f1be174c79f8
+//before I had one for loop and called the perm again in each for loop
+//in console log the rest of the string permutations would be correct but not
+//independently attached to the first letter ex. [abc, cb] as one element
+//the difference here is that we get the possible permutations and then add all
+//of the smaller permutations to the first letter and then do this again and build
+//that way
 const perm = string => {
   let permutations = [];
   if (string.length === 1) {
-    console.log("string returned: " + string);
+    //console.log("string returned: " + string);
     return string;
   }
-  //   if (string.length === 2) {
-  //     return string[1] + string[0];
-  //   }
 
   for (var i = 0; i < string.length; i++) {
     var firstChar = string[i];
-    //console.log("firstChar")
     var leftoverStr = string.substring(0, i) + string.substring(i + 1);
-    console.log("leftover string: " + leftoverStr);
-    permutations.push(firstChar + perm(leftoverStr));
+    var innerPermutations = perm(leftoverStr);
+    for (var j = 0; j < innerPermutations.length; j++) {
+      permutations.push(firstChar + innerPermutations[j]);
+    }
   }
   return permutations;
 };
 
-console.log(perm("abc"));
+//console.log(perm("abcd"));
 
 const palindrome = string => {
   const noSpaces = string.split(" ").join("");
@@ -217,23 +222,34 @@ const palindrome = string => {
   return true;
 };
 
-function getAllPermutations(string) {
-  var results = [];
+//better way to solve this problem than calling each of these functions
+//is to check if there is an even number of all elements or if everything repeats
+//evenly and there is only one item that is present once because this can go in center
+//if length of string is odd
 
-  if (string.length === 1) {
-    results.push(string);
-    return results;
-  }
-
-  for (var i = 0; i < string.length; i++) {
-    var firstChar = string[i];
-    var charsLeft = string.substring(0, i) + string.substring(i + 1);
-    var innerPermutations = getAllPermutations(charsLeft);
-    for (var j = 0; j < innerPermutations.length; j++) {
-      results.push(firstChar + innerPermutations[j]);
+const betterPalPerm = string => {
+  let tracker = new Array(26);
+  string = string.split(" ").join("");
+  for (i = 0; i < string.length; i++) {
+    let trackerIndex = string.charCodeAt(i) - "a".charCodeAt(0);
+    if (tracker[trackerIndex] === false) {
+      tracker[trackerIndex] = true;
+    } else {
+      tracker[trackerIndex] = false;
     }
   }
-  return results;
-}
+  const numFalses = tracker.filter(truthness => truthness === false);
+  if (
+    (string.length % 2 === 0 && numFalses.length === 0) ||
+    (string.length % 2 === 1 && numFalses.length === 1)
+  ) {
+    return "yes, some permutations can be a palindrome";
+  }
+  return "no permutations can be a palindrome";
+};
 
-console.log(getAllPermutations("abcd"));
+//console.log(betterPalPerm("ababaccd"));
+
+//could also make a hash table
+
+//return to this and have problems left in chapter
