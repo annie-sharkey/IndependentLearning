@@ -168,10 +168,16 @@ console.log(factorial(4));
 
         O(n ^ n)
 
+        that was a bad first attempt
+
+        Second attempt
+        
+
         Answer: 
 
 
 
 Do more Big O after studying search algorithms
+
 
 */
