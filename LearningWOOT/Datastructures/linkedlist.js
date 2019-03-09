@@ -30,4 +30,31 @@ Benefit: ability to grow and shrink as necessary
 Iteration thought of as traversal because you don't know when LL will end
 might end up using a while loop
 
+
+https://www.geeksforgeeks.org/data-structures/linked-list/
+Linear data structure, elements not stored at contiguous memory locations
+    Instead items linked using pointers 
+    Linked list contains nodes where each node contains a data field and a reference (link)
+    to the next node in the list
+
+Like array: is linear
+Unlike array: linked elements not stored at contiguous locations, instead use pointers
+
+General challenges of arrays
+    Size of the array is fixed
+    Hard to insert into an array because you must move all items to the right -- shift
+
+Benefits of linked list:
+    Dynamic size
+    Ease of insertion/deletion
+
+Problems of LL:
+    random access not easy
+        can't do binary search, instead access elements sequentially from first node
+    Extra memory space required for the pointer
+    Not cache friendly
+
+Head is the first node 
+Each note has data and a pointer/reference to the next node
 */
+
