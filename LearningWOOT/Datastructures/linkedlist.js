@@ -56,5 +56,53 @@ Problems of LL:
 
 Head is the first node 
 Each note has data and a pointer/reference to the next node
+
+https://hackernoon.com/the-little-guide-of-linked-list-in-javascript-9daf89b63b54
 */
 
+//remem no classes in javascript
+//so in java it would have been
+//  class linkedlist
+//      Node head;
+//      node class /constructor
+
+//******** */DOUBLY LINKED LIST ==> NEXT AND PREVIOUS*********
+//what does linkedlist overall need to track
+function LinkedList() {
+  this.head = null; //these will be nodes ==> this.head is a node so this.head.prev goes into the node
+  this.tail = null;
+  //idea: don't put methods inside of the LL constructor
+  //if we create many LL objects then methods will be repeated everytime
+  //add to the prototype and LL will inherit
+}
+
+function Node(element, next, prev) {
+  this.data = element;
+  this.next = next; //node
+  this.prev = prev; //pointers to, node
+}
+
+//LL methods
+LinkedList.prototype.addHead = function(value) {
+  //head will be a node
+  const newNode = new Node(value, this.head, null);
+  if (this.head) {
+    //if the head already has a value
+    this.head.prev = newNode;
+  } else {
+    this.tail = newNode;
+    //if nothing there then the head and the tail are the same
+  }
+  this.head = newNode; //regardless set the head of the linkedlist
+  //to the node we like
+};
+
+const list = new LinkedList();
+list.addHead(1); //when we just add one item to the head there is no next node or previous node
+//but the tail node will be the same as the head node
+console.log(list);
+
+list.addHead(2); //now i expect that 2 will be the head
+//expect: data 2 (head), next is data 1, prev is null
+//then data 1 follows it so, next null, prev data 2
+console.log(list);
