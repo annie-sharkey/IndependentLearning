@@ -1,4 +1,6 @@
 /*
+REVIEW ==> error message classes
+
 Linked Lists imposter's handbook
 
 Two types: singly and doubly linked
@@ -56,6 +58,9 @@ Problems of LL:
 
 Head is the first node 
 Each note has data and a pointer/reference to the next node
+Tail is a node for the final value of the list
+    single doesn't note the tail but double does
+    single doesn't track previous but double does
 
 https://hackernoon.com/the-little-guide-of-linked-list-in-javascript-9daf89b63b54
 */
@@ -66,43 +71,159 @@ https://hackernoon.com/the-little-guide-of-linked-list-in-javascript-9daf89b63b5
 //      Node head;
 //      node class /constructor
 
-//******** */DOUBLY LINKED LIST ==> NEXT AND PREVIOUS*********
-//what does linkedlist overall need to track
+//********SINGLY LINKED LIST*************
+
+//Node has data and pointer to next item
+function Node(data) {
+  this.data = data;
+  this.next = null; //node
+}
+
 function LinkedList() {
-  this.head = null; //these will be nodes ==> this.head is a node so this.head.prev goes into the node
-  this.tail = null;
-  //idea: don't put methods inside of the LL constructor
-  //if we create many LL objects then methods will be repeated everytime
-  //add to the prototype and LL will inherit
+  this.head = null; //node
+  this._length = 0; //number of nodes, every instance of LL doesn't necessarily start
+  //with a node so we initialize with null and 0
 }
 
-function Node(element, next, prev) {
-  this.data = element;
-  this.next = next; //node
-  this.prev = prev; //pointers to, node
-}
+LinkedList.prototype.addNode = function(value) {
+  const newNode = new Node(value);
+  let currentNode = this.head;
 
-//LL methods
-LinkedList.prototype.addHead = function(value) {
-  //head will be a node
-  const newNode = new Node(value, this.head, null);
-  if (this.head) {
-    //if the head already has a value
-    this.head.prev = newNode;
-  } else {
-    this.tail = newNode;
-    //if nothing there then the head and the tail are the same
+  if (this._length == 0) {
+    this.head = newNode;
+    this._length++;
+    return newNode;
   }
-  this.head = newNode; //regardless set the head of the linkedlist
-  //to the node we like
+
+  while (currentNode.next) {
+    currentNode = currentNode.next;
+  }
+  currentNode.next = newNode;
+  this._length++;
+  return newNode;
 };
 
-const list = new LinkedList();
-list.addHead(1); //when we just add one item to the head there is no next node or previous node
-//but the tail node will be the same as the head node
-console.log(list);
+//position starts at 1
+LinkedList.prototype.search = function(position) {
+  let counter = 1;
+  let currentNode = this.head;
 
-list.addHead(2); //now i expect that 2 will be the head
-//expect: data 2 (head), next is data 1, prev is null
-//then data 1 follows it so, next null, prev data 2
-console.log(list);
+  if (position < 1 || this._length === 0 || position > this._length) {
+    return Error(message.failure);
+  } else if (position === 1) {
+    return currentNode;
+  }
+  while (counter < position) {
+    currentNode = currentNode.next; //this.head.next
+    counter++; //2
+  }
+  return currentNode;
+};
+
+LinkedList.prototype.remove = function(position) {
+  if (position < 1 || this._length === 0 || position > this._length) {
+    return Error(message.failure);
+  } else if (position === this._length) {
+    this.head = null;
+    this._length--;
+  } else {
+    this.search(position - 1).next = this.search(position + 1);
+    this._length--;
+  }
+};
+
+LinkedList.prototype.insertAt = function(position, node) {
+  node.next = this.search(position + 1);
+  this.search(position - 1).next = node;
+  this._length++;
+};
+
+// let weLoveList = new LinkedList();
+// weLoveList.addNode("first");
+// weLoveList.addNode("second");
+// weLoveList.addNode("third");
+// weLoveList.addNode("four");
+// console.log(weLoveList.head.next.next);
+//console.log(weLoveList.search(2));
+// console.log(weLoveList.remove(3));
+// console.log(weLoveList.head.next.next); //should say four
+// console.log(weLoveList.insertAt(3, new Node("five")));
+// console.log(weLoveList.search(3));
+
+//addNode is O(1) because you just drop at end of list
+
+//******** */DOUBLY LINKED LIST ==> NEXT AND PREVIOUS*********
+//https://hackernoon.com/the-little-guide-of-linked-list-in-javascript-9daf89b63b54
+
+//every instance of double LL is instantiated without nodes
+//so default values for tail and head set to null
+function DoubleNode(data) {
+  this.data = data;
+  this.next = null;
+  this.prev = null;
+}
+
+function DoubleLinkedList() {
+  this.head = null;
+  this.tail = null;
+  this._length = 0;
+}
+
+//add to END
+DoubleLinkedList.prototype.addNode = function(value) {
+  const newNode = new DoubleNode(value);
+
+  if (this._length === 0) {
+    this.head = newNode;
+    this.tail = newNode;
+  } else {
+    newNode.prev = this.tail;
+    this.tail.next = newNode;
+    this.tail = newNode;
+  }
+  //don't have to iterate through every item because we can use tail to access
+  this._length++;
+};
+
+//position starts at 1
+//same as single
+DoubleLinkedList.prototype.search = function(position) {
+  let counter = 1;
+  let currentNode = this.head;
+
+  if (position < 1 || this._length === 0 || position > this._length) {
+    return Error(message.failure);
+  } else if (position === 1) {
+    return currentNode;
+  }
+  while (counter < position) {
+    currentNode = currentNode.next; //this.head.next
+    counter++; //2
+  }
+  return currentNode;
+};
+
+//you want to remove at the head
+//this.head and this.tail equal the same thing
+
+//revisit tomorrow
+DoubleLinkedList.prototype.remove = function(position) {
+  if (position < 1 || this._length === 0 || position > this._length) {
+    return Error(message.failure);
+  } else if (position === this._length) {
+    this.tail = this.tail.prev;
+    this.tail.next = null;
+  } else if (position === 1) {
+    this.head = null;
+    this.tail = null;
+  } else {
+    this.search(position - 1).next = this.search(position + 1);
+    this.search(position + 1).prev = this.search(position - 1);
+  }
+  this._length--;
+};
+
+let DLL = new DoubleLinkedList();
+DLL.addNode("first");
+DLL.addNode("second");
+console.log(DLL);
