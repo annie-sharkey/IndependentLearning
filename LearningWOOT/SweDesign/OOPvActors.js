@@ -196,14 +196,75 @@ How does Actor model meet needs of concurrent distributed systems
             and sending signals to each other to drive app forward
 
 (reminder of blocking:
+    https://en.wikipedia.org/wiki/Blocking_(computing)
     process is an instance of a computer program being executed
     a process always exists in one process state
     a process that is blocked is one that is waiting for an event so it can be
     completed
 
-    in a multitasking system or threads of execution 
+    in a multitasking system or threads of execution resources like CPU, network,
+    network interfaces, and memory have to be shared
+    when one task uses a resource it is difficult for another task to use it
+        mutual exclusion is used to prevent concurrent use
+
+    programming languages attempt to minimize overall blocking effect
+
+    deadlock review
+        every thread is waiting and can't break out
     )
 Useage of message passing avoids locking and blocking
-        reminder: blocking 
+        **Instead of calling methods, actors send messages to each other**
+        Sending a message doesn't transfer the thread of execution from the sender
+        to the destination -- an actor can send a message and continue without
+        blocking
+            result: can do more work 
+
+    Object return -- when a method returns, it releases control of executing thread
+    Actors -- messages don't have return values (sending messages not calling 
+        methods). in sending a message, actor delegates work to another actor
+        
+    How do actors solve illusion of a call stack problem?
+        if a return val is expected, the sending actor would have had to block
+        or execute the other actor's work on same thread
+        INSTEAD receiving actor delivers the results in a reply message
+
+    Re: Encapsulation
+        Actors react to messages like objects react to methods
+        BUT we don't have multiple threads trying to alter internal state at same
+        time
+        INSTEAD actors execute independently from the senders of the message,
+        react sequentially 
+            while one actor processes messages sent to it other actors work
+            concurrently to process messages
+
+How does an actor receive a message
+        1. message added to end of queue FIFO
+        2. if actor not scheduled for execution, is marked as ready to execute
+        3. hidden scheduler entity takes actor and starts executing
+        4. actor picks message from front of queue
+        5. actor modifies internal state, sends messages to other actors
+        6. actor is unscheduled
+
+Messages put in mailboxes (queue) of actors
+behavior of actor describes how the actor responds to messages 
+        (ex. changing state, sending more messages)
+execution environment orchestrates a pool of threads to drive all these actions
+Address
+
+Encapsulation preserved by decoupling execution from signaling
+        (method calls transfer execution, message passing doesn't)
+no need for locks -- messages only processed one at a time
+senders are not blocked
+state of actors local and not shared
+        changes and data passed via messages
+        read more on cache lines 
+
+ERROR HANDLING
+    Case #1: delegated task on the target actor failed because of an error in the task
+        ex. validation issue like no ID
+        Error becomes a message
+    Case #2: service itself encounters internal fault
+        when an actor fails its parent actor is notified so it can react to the failure
+        if parent actor is stopped -- all children recursively stopped: supervision
 
 */

@@ -1,3 +1,5 @@
 /*
 bonus topic look into more technically
+
+cache line
 */
