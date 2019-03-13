@@ -1,5 +1,7 @@
 /*
 https://itnext.io/design-patterns-in-javascript-f533632556c1
+Creational pattern
+
 
 INTENT: separate construction of complex object from its representation so 
 the same construction process can create different representations
