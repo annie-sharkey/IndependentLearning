@@ -10,7 +10,13 @@ function LinkedList() {
 }
 
 LinkedList.prototype.addNode = function(value) {
-  const newNode = new Node(value);
+  let newNode = null;
+  if (typeof value === Number) {
+    newNode = new Node(value);
+  } else {
+    newNode = value;
+  }
+
   let currentNode = this.head;
 
   if (this._length == 0) {
