@@ -169,6 +169,8 @@ function DoubleLinkedList() {
   this._length = 0;
 }
 
+
+
 //add to END
 DoubleLinkedList.prototype.addNode = function(value) {
   const newNode = new DoubleNode(value);
@@ -213,12 +215,15 @@ DoubleLinkedList.prototype.remove = function(position) {
   } else if (position === this._length) {
     this.tail = this.tail.prev;
     this.tail.next = null;
-  } else if (position === 1) {
+  } else if (this._length === 1) {
+    //by now we've checked that position would be 1 if it made it here
+    //removing head
     this.head = null;
     this.tail = null;
   } else {
-    this.search(position - 1).next = this.search(position + 1);
-    this.search(position + 1).prev = this.search(position - 1);
+    let earlyNode = this.search(position - 1);
+    let nextNode = this.search(position + 1);
+    earlyNode.next = nextNode;
   }
   this._length--;
 };
@@ -226,4 +231,7 @@ DoubleLinkedList.prototype.remove = function(position) {
 let DLL = new DoubleLinkedList();
 DLL.addNode("first");
 DLL.addNode("second");
+DLL.addNode("three");
+DLL.addNode("four");
+DLL.remove(4);
 console.log(DLL);
