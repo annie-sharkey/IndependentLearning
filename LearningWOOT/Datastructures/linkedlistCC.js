@@ -160,8 +160,8 @@ linked.addNode(232);
 linked.addNode(653);
 linked.addNode(8);
 
-var partLinked = betterPartition(linked, 23);
-// console.log(partLinked.head.next.next.next);
+// var partLinked = betterPartition(linked, 23);
+// console.log(partLinked.head.next.next.next.next);
 
 /*
 Biggest takeaway from this problem:
@@ -213,5 +213,99 @@ dubs.addNode(332);
 /*Moved on with conceptual understanding, book solution is not technical
 at all */
 
-
 //2.5 Sum Lists
+//two linked lists stored in reverse order ==> 1s digit at the head
+//return number stored as linked list
+
+function reverseSumLists(link1, link2) {
+  current1 = link1.head;
+  current2 = link2.head;
+
+  if (current1 === null && current2 === null) {
+    return false;
+  }
+
+  var sumList = new LinkedList();
+  var extraDigit = 0;
+
+  while (current1 != null || current2 != null) {
+    var add = extraDigit;
+    if (current1 != null) {
+      add += current1.data;
+    }
+    if (current2 != null) {
+      add += current2.data;
+    }
+    if (add - 10 > 0) {
+      sumList.addNode(add - 10);
+      extraDigit = 1;
+    } else {
+      //negative
+      sumList.addNode(add);
+      extraDigit = 0;
+    }
+    try {
+      current1 = current1.next;
+    } catch (err) {
+      current1 = null;
+    }
+
+    try {
+      current2 = current2.next;
+    } catch (err) {
+      current2 = null;
+    }
+  }
+
+  return sumList;
+}
+
+/*Could also use recursion*/
+
+let link1 = new LinkedList();
+// link1.addNode(7);
+// link1.addNode(1);
+// link1.addNode(6);
+
+let link2 = new LinkedList();
+// link2.addNode(5);
+// link2.addNode(9);
+// link2.addNode(2);
+
+// console.log(reverseSumLists(link1, link2).head);
+
+//2.5 what if they were not reversed ==> were in correct forward looking order
+//pretend i don't have length property in linkedlist definition
+function addForward(list1, list2) {
+  var length1 = 0;
+  var current1 = list1.head;
+  while (current1 != null) {
+    length1 = length1 + 1;
+    current1 = current1.next;
+  }
+
+  var length2 = 0;
+  var current2 = list2.head;
+  while (current2 != null) {
+    length2 = length2 + 1;
+    current2 = current2.next;
+  }
+
+  var longer = null;
+  var shorter = null;
+
+  if (length1 - length2 > 0) {
+    longer = current1.head;
+    shorter = current2.head;
+  } else {
+    longer = current2.head;
+    shorter = current1.head;
+  }
+
+  var lengthDif = abs(length1 - length2);
+  var sumList = new LinkedList();
+  var carryBack = 0;
+  var prevNode = null;
+
+  
+}
