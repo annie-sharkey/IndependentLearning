@@ -11,7 +11,7 @@ function LinkedList() {
 
 LinkedList.prototype.addNode = function(value) {
   let newNode = null;
-  if (typeof value === Number) {
+  if (typeof value === "number") {
     newNode = new Node(value);
   } else {
     newNode = value;
