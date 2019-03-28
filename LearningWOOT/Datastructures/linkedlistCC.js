@@ -236,7 +236,7 @@ function reverseSumLists(link1, link2) {
     if (current2 != null) {
       add += current2.data;
     }
-    if (add - 10 > 0) {
+    if (add - 10 >= 0) {
       sumList.addNode(add - 10);
       extraDigit = 1;
     } else {
@@ -262,12 +262,12 @@ function reverseSumLists(link1, link2) {
 
 /*Could also use recursion*/
 
-let link1 = new LinkedList();
+// let link1 = new LinkedList();
 // link1.addNode(7);
 // link1.addNode(1);
 // link1.addNode(6);
 
-let link2 = new LinkedList();
+// let link2 = new LinkedList();
 // link2.addNode(5);
 // link2.addNode(9);
 // link2.addNode(2);
@@ -277,35 +277,72 @@ let link2 = new LinkedList();
 //2.5 what if they were not reversed ==> were in correct forward looking order
 //pretend i don't have length property in linkedlist definition
 function addForward(list1, list2) {
-  var length1 = 0;
-  var current1 = list1.head;
-  while (current1 != null) {
-    length1 = length1 + 1;
-    current1 = current1.next;
-  }
+  var diff = list1._length - list2._length;
+  //   console.log(diff);
 
-  var length2 = 0;
-  var current2 = list2.head;
-  while (current2 != null) {
-    length2 = length2 + 1;
-    current2 = current2.next;
-  }
-
-  var longer = null;
-  var shorter = null;
-
-  if (length1 - length2 > 0) {
-    longer = current1.head;
-    shorter = current2.head;
-  } else {
-    longer = current2.head;
-    shorter = current1.head;
-  }
-
-  var lengthDif = abs(length1 - length2);
   var sumList = new LinkedList();
-  var carryBack = 0;
-  var prevNode = null;
 
-  
+  var currentList1 = list1.head;
+  var currentList2 = list2.head;
+
+  while (diff != 0) {
+    var prevSumListNode = null;
+    if (diff > 0) {
+      //length1 greater
+      var newNode = new Node(currentList1.data);
+      prevSumListNode = newNode;
+      sumList.addNode(newNode);
+      currentList1 = currentList1.next;
+      diff--;
+    } else {
+      var newNode = new Node(currentList2.data);
+      prevSumListNode = newNode;
+      currentList2 = currentList2.next;
+      diff++;
+    }
+  }
+
+  //at this point they're lined up
+  while (currentList1 != null && currentList2 != null) {
+    var addData = currentList1.data + currentList2.data;
+    if (addData - 10 >= 0) {
+      //too big
+      prevSumListNode.data++;
+      sumList.addNode(addData - 10);
+    } else {
+      sumList.addNode(addData);
+    }
+    currentList1 = currentList1.next;
+    currentList2 = currentList2.next;
+  }
+  return sumList;
 }
+
+let link1 = new LinkedList();
+link1.addNode(1);
+link1.addNode(0);
+link1.addNode(9);
+link1.addNode(2);
+
+let link2 = new LinkedList();
+link2.addNode(5);
+link2.addNode(3);
+// link2.addNode(9);
+// link2.addNode(2);
+
+// console.log(addForward(link1, link2).head.next);
+
+//2.6 Palindrome ==> implement a function to check if a linked list is a palindrome
+
+function linkedPal(linkedlist) {
+    
+}
+
+let pal = new LinkedList();
+pal.addNode(0);
+pal.addNode(1);
+pal.addNode(2);
+pal.addNode(1);
+pal.addNode(0);
+
+
