@@ -333,16 +333,17 @@ link2.addNode(3);
 // console.log(addForward(link1, link2).head.next);
 
 //2.6 Palindrome ==> implement a function to check if a linked list is a palindrome
+//reverse and compare
 
-function linkedPal(linkedlist) {
-    
-}
+//2.7 intersection
+//two singly linked lists intersect
+//after intersection they have the same data
 
-let pal = new LinkedList();
-pal.addNode(0);
-pal.addNode(1);
-pal.addNode(2);
-pal.addNode(1);
-pal.addNode(0);
+//figure out length
+//iterate through longer one until they're both at the same point
+//if a node has the same data check if the next one are the same
+//keep going until the end
+//return the ending node
+
 
 
