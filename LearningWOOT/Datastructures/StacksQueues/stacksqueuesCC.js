@@ -1,4 +1,6 @@
 var Stack = require("./stack.js");
+var Queue = require("./queue.js");
+var LinkedList = require("../linkedlists/SingleLinkedList");
 
 //3.2 stack that returns minimum element
 class StackWithMin {
@@ -208,12 +210,8 @@ let sortStack = function(stack) {
     if (current < sortedStack.peek()) {
       sortedStack.push(current);
     } else {
-      console.log("entered");
       var count = 0;
-      console.log(sortedStack.peek());
-      console.log("current: " + current);
-      while (current > sortedStack.peek() && stack.isEmpty() !== false) {
-        // var newCurrent = stack.pop();
+      while (current > sortedStack.peek() && sortedStack.isEmpty() !== true) {
         var sortedPop = sortedStack.pop();
         stack.push(sortedPop);
         count = count + 1;
@@ -226,15 +224,88 @@ let sortStack = function(stack) {
       }
     }
   }
-  console.log(stack);
-  console.log(sortedStack);
+
   return sortedStack;
 };
 
 var st = new Stack();
-// st.push(10);
+st.push(10);
 st.push(11);
 st.push(5);
 st.push(2);
+st.push(-1);
 st.push(8);
-sortStack(st);
+st.push(20);
+// console.log(sortStack(st));
+
+//3.6 animal shelter ==> adopt either oldest in shelter or select whether
+//they prefer dog or cat and they get oldest of those options
+//first in first out
+//can't select specific animal
+//create the data structure to do this ==> implement enqueue, dequeueAny,
+//dequeueDog, dequeueCat
+//can use linked list
+
+class AnimalShelter {
+  constructor() {
+    this.dogs = new Queue();
+    this.cats = new Queue();
+    this.all = new LinkedList();
+  }
+
+  enqueueAnimal(animal) {
+    if (animal.type === "Cat") {
+      this.cats.enqueue(animal);
+    } else if (animal.type === "Dog") {
+      this.dogs.enqueue(animal);
+    } else {
+      return false;
+    }
+
+    this.all.addNode(animal);
+  }
+
+  dequeueAny() {
+    var oldestAnimal = this.all.search(1);
+    var typeOfAnimal = oldestAnimal.data.type;
+    if (typeOfAnimal === "Cat") {
+      this.cats.dequeue();
+    } else {
+      this.dogs.dequeue();
+    }
+
+    this.all.remove(1);
+  }
+}
+
+class Cat {
+  constructor(name) {
+    this.type = "Cat";
+    this.name = name;
+  }
+}
+
+class Dog {
+  constructor(name) {
+    this.type = "Dog";
+    this.name = name;
+  }
+}
+
+var cat1 = new Cat("cat1(oldestoldest)");
+var cat2 = new Cat("cat2");
+var dog1 = new Dog("dog1(oldestdog)");
+var cat3 = new Cat("cat3(youngest)");
+var dog2 = new Dog("dog2(oldestdog)");
+var shelter = new AnimalShelter();
+shelter.enqueueAnimal(cat1);
+shelter.enqueueAnimal(cat2);
+shelter.enqueueAnimal(dog1);
+shelter.enqueueAnimal(cat3);
+shelter.enqueueAnimal(dog2);
+// console.log(shelter.dogs);
+// console.log(shelter.cats);
+// console.log(shelter.all.head.next);
+// console.log(cat1.constructor.name);
+shelter.dequeueAny();
+console.log(shelter.all);

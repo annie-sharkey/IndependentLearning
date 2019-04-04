@@ -9,13 +9,21 @@ function LinkedList() {
   //with a node so we initialize with null and 0
 }
 
+//NEED TO FIX LENGTH PROPERTY
+
+
 LinkedList.prototype.addNode = function(value) {
   let newNode = null;
-  if (typeof value === "number") {
-    newNode = new Node(value);
-  } else {
+  if (value.constructor.name === "Node") {
     newNode = value;
+  } else {
+    newNode = new Node(value);
   }
+  // if (typeof value === "number") {
+  //   newNode = new Node(value);
+  // } else {
+  //   newNode = value;
+  // }
 
   let currentNode = this.head;
 
