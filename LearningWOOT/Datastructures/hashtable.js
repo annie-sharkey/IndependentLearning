@@ -26,9 +26,4 @@ Do an O(n) scan until you find next available value
 
 Separate chaining ==> combines arrays and linked lists
     When a key is hashed it's added to an array that points to a linked list
-
-
-
-
-
 */

@@ -266,15 +266,31 @@ class AnimalShelter {
   }
 
   dequeueAny() {
-    var oldestAnimal = this.all.search(1);
+    var oldestAnimal = this.all.head;
     var typeOfAnimal = oldestAnimal.data.type;
+    console.log(typeOfAnimal);
     if (typeOfAnimal === "Cat") {
       this.cats.dequeue();
     } else {
       this.dogs.dequeue();
     }
 
-    this.all.remove(1);
+    this.all.head = this.all.head.next;
+    this.all._length--;
+  }
+
+  dequeueDog() {
+    var oldestDog = this.dogs.dequeue();
+    var prevAnimal = null;
+    var currentAnimal = this.all.head;
+
+    while (currentAnimal.data.name !== oldestDog.name) {
+      prevAnimal = currentAnimal;
+      currentAnimal = currentAnimal.next;
+    }
+    prevAnimal.next = currentAnimal.next;
+
+    return oldestDog;
   }
 }
 
@@ -296,16 +312,12 @@ var cat1 = new Cat("cat1(oldestoldest)");
 var cat2 = new Cat("cat2");
 var dog1 = new Dog("dog1(oldestdog)");
 var cat3 = new Cat("cat3(youngest)");
-var dog2 = new Dog("dog2(oldestdog)");
+var dog2 = new Dog("dog2(youngest)");
 var shelter = new AnimalShelter();
 shelter.enqueueAnimal(cat1);
 shelter.enqueueAnimal(cat2);
 shelter.enqueueAnimal(dog1);
 shelter.enqueueAnimal(cat3);
 shelter.enqueueAnimal(dog2);
-// console.log(shelter.dogs);
-// console.log(shelter.cats);
-// console.log(shelter.all.head.next);
-// console.log(cat1.constructor.name);
-shelter.dequeueAny();
-console.log(shelter.all);
+shelter.dequeueDog();
+console.log(shelter.all.head);
