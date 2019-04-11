@@ -167,12 +167,30 @@ move the current beginning to where the old num was
 move through list
 */
 
-var woot = [2, 5, 1, 7, 3, 6, 4];
+var woot = [2, 5, 1, 7, 2, 3, 6, 4, -1, 2, 2];
 
 const selectionSort = list => {
-  //try with length of lift and shifting
+  var result = [];
+  while (woot.length) {
+    var minIndex = 0;
 
-  
+    for (let i = 1; i < list.length; i++) {
+      if (list[i] < list[minIndex]) {
+        minIndex = i;
+      }
+    }
+
+    if (minIndex === 0) {
+      result.push(list.shift());
+    } else {
+      const firstNum = list[0];
+      list[0] = list[minIndex];
+      list[minIndex] = firstNum;
+      result.push(list.shift());
+    }
+  }
+
+  return result;
   //   var minIndex = 0;
   //   var needToSwap = false;
   //   for (var x = 0; x < list.length; x++) {
@@ -193,4 +211,49 @@ const selectionSort = list => {
   //   return list;
 };
 
-console.log(selectionSort(woot));
+// console.log(selectionSort(woot));
+
+/*
+*****HEAP SORT********
+Moves unsorted data to sorted partition selectively
+Uses a heap to this ==> remem: tree structure where parent nodes in each level 
+either greater than (max heap) or less than (min heap) child nodes in descendant levels
+
+O(nlogn)
+
+Puts max items at the top
+Fill tree from left to right
+If you fill with a value that should be greater than the one above it, swap
+    Keep swapping up if necessary
+*/
+
+/*
+******BINARY SEARCH********
+split list in half, look to see which one is less vs. greater
+
+*/
+
+//ordered list
+const binarySearch = (list, lookFor) => {
+  const listCopy = list;
+
+  while (list.length) {
+    // console.log(list);
+    var midIndex = list.length / 2;
+
+    if (lookFor === list[midIndex]) {
+      return listCopy.indexOf(list[midIndex]);
+
+      // listCopy.indexOf(list[midpoint]);
+    } else if (lookFor > list[midIndex]) {
+      console.log("else if entered");
+      list.slice(midIndex);
+      console.log(list);
+    } else {
+      list.slice(0, midIndex);
+    }
+  }
+};
+//                 0   1  2  3  4   5
+var orderedList = [4, 8, 15, 16, 23, 42];
+console.log(binarySearch(orderedList, 23));
