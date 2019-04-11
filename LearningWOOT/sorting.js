@@ -235,25 +235,32 @@ split list in half, look to see which one is less vs. greater
 
 //ordered list
 const binarySearch = (list, lookFor) => {
-  const listCopy = list;
-
-  while (list.length) {
-    // console.log(list);
-    var midIndex = list.length / 2;
+  var listSlice = list;
+  while (listSlice.length >= 1) {
+    var midIndex = Math.floor(listSlice.length - 1 / 2);
 
     if (lookFor === list[midIndex]) {
-      return listCopy.indexOf(list[midIndex]);
-
-      // listCopy.indexOf(list[midpoint]);
+      return list.indexOf(list[midIndex]);
     } else if (lookFor > list[midIndex]) {
       console.log("else if entered");
-      list.slice(midIndex);
-      console.log(list);
+      listSlice = list.slice(midIndex);
+      console.log(listSlice);
     } else {
-      list.slice(0, midIndex);
+      listSlice = list.slice(0, midIndex);
     }
   }
 };
-//                 0   1  2  3  4   5
-var orderedList = [4, 8, 15, 16, 23, 42];
-console.log(binarySearch(orderedList, 23));
+
+//                 0   1  2  3   4    5   6
+var orderedList = [4, 8, 15, 16, 23, 42, 98];
+console.log(binarySearch(orderedList, 98));
+
+
+/*
+******Graph Traversal********
+Can traverse using recursion or iteration ==> recursion is helpful but costly
+    high space complexity
+
+
+Ex. using recursion pg. 171
+*/

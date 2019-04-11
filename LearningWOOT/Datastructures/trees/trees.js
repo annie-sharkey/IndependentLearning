@@ -72,5 +72,41 @@ specialized tree used in searching, most often with text
 look at diagram on page 126
 
 
-*******Return to graph problems
+*******Graphs********
+https://www.geeksforgeeks.org/graph-data-structure-and-algorithms/
+
+Non linear data structure with nodes and edges
+    Nodes aka vertices
+    Edges are lines that connect any two nodes in a graph
+
+    Def: a graph consists of a finite set of vertices (nodes) and set of edges
+    which connect a pair of nodes
+
+A tree is an undirected graph in which any two vertices are connected by
+exactly one path
+
+Graphs represent networks like paths in a city or telephones
+    Social networks ==> linkedin, facebook
+        ex. facebook: each person is a vertex (node)
+            each node contains info about each person
+
+Directed graph:
+    has notion of direction applied to edges
+        ex. useful for describing traffic flow
+
+Undirected graph:
+    ex. traffic flow like that of a highway
+    everything is bidirectional
+
+Weighted graph:
+    values applied to parts of graph like the vertex
+    edge weighted graph has values on edges
+
+Cycles:
+    vertices connected in a circular fashion
+
+Directed acyclic graphs (DAGS):
+    don't have vertices that connect in a circular fashion
+    think decision trees, data flow diagrams, trees, linkedlists
+
 */
