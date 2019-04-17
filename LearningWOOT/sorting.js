@@ -253,8 +253,7 @@ const binarySearch = (list, lookFor) => {
 
 //                 0   1  2  3   4    5   6
 var orderedList = [4, 8, 15, 16, 23, 42, 98];
-console.log(binarySearch(orderedList, 98));
-
+// console.log(binarySearch(orderedList, 98));
 
 /*
 ******Graph Traversal********
@@ -263,4 +262,77 @@ Can traverse using recursion or iteration ==> recursion is helpful but costly
 
 
 Ex. using recursion pg. 171
+Can also use iteration using a loop instead of filling up stack
+
+
+****DEPTH FIRST SEARCH*******
+go as deep as possible preferably starting from the left
+go as deep left and then backtrack right
+
+implement using a stack
 */
+
+var BinSearchTree = require("./Datastructures/trees/treesCC.js");
+var Stack = require("./Datastructures/StacksQueues/stack.js");
+var trees = new BinSearchTree();
+trees.insert(4);
+trees.insert(8);
+trees.insert(11);
+trees.insert(2);
+trees.insert(12);
+trees.insert(6);
+trees.insert(1);
+trees.insert(10);
+
+// remem lifo
+const depthFirstSearch = tree => {
+  var nodeStack = new Stack();
+  nodeStack.push(tree.root);
+
+  var currentNode = null;
+  while (nodeStack.isEmpty() !== true) {
+    currentNode = nodeStack.pop();
+    console.log(currentNode.data);
+
+    if (currentNode.right != null) {
+      nodeStack.push(currentNode.right);
+    }
+
+    if (currentNode.left != null) {
+      nodeStack.push(currentNode.left);
+    }
+  }
+};
+
+// depthFirstSearch(trees);
+
+/*
+Breadth first search
+
+Use a queue ==> track the nodes of a tree in each level before traversing to the next level
+Track every node and its children in order
+
+*/
+
+var Queue = require("./Datastructures/StacksQueues/queue.js");
+
+const breadthFirstSearch = tree => {
+  var nodeQueue = new Queue();
+  nodeQueue.enqueue(tree.root);
+
+  var currentNode = null;
+  while (!nodeQueue.isEmpty()) {
+    currentNode = nodeQueue.dequeue();
+    console.log(currentNode.data);
+
+    if (currentNode.left) {
+      nodeQueue.enqueue(currentNode.left);
+    }
+
+    if (currentNode.right) {
+      nodeQueue.enqueue(currentNode.right);
+    }
+  }
+};
+
+breadthFirstSearch(trees);

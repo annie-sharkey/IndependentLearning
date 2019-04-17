@@ -75,21 +75,29 @@ class BinSearchTree {
 //REMEMBER: the following refer to placement of when we print node.data
 //left always goes before right
 
-function inorderTraverse(node) {
+BinSearchTree.prototype.inorderTraverse = node => {
   if (node != null) {
     inorderTraverse(node.left);
     console.log(node.data);
     inorderTraverse(node.right);
   }
-}
+};
 
-function preorderTraverse(node) {
+BinSearchTree.prototype.preorderTraverse = node => {
   if (node !== null) {
     console.log(node.data);
     preorderTraverse(node.left);
     preorderTraverse(node.right);
   }
-}
+};
+
+// function preorderTraverse(node) {
+//   if (node !== null) {
+//     console.log(node.data);
+//     preorderTraverse(node.left);
+//     preorderTraverse(node.right);
+//   }
+// }
 
 function postorderTraverse(node) {
   if (node !== null) {
@@ -99,17 +107,19 @@ function postorderTraverse(node) {
   }
 }
 
-var trees = new BinSearchTree();
-trees.insert(4);
-trees.insert(8);
-trees.insert(11);
-trees.insert(2);
-trees.insert(12);
-trees.insert(6);
-trees.insert(1);
-trees.insert(10);
-console.log(trees);
+module.exports = BinSearchTree;
 
-// inorderTraverse(trees.root);
-// preorderTraverse(trees.root);
-postorderTraverse(trees.root);
+// var trees = new BinSearchTree();
+// trees.insert(4);
+// trees.insert(8);
+// trees.insert(11);
+// trees.insert(2);
+// trees.insert(12);
+// trees.insert(6);
+// trees.insert(1);
+// trees.insert(10);
+// console.log(trees);
+
+// // inorderTraverse(trees.root);
+// // preorderTraverse(trees.root);
+// postorderTraverse(trees.root);
