@@ -17,8 +17,6 @@ Fibonacci
 
 //return numbers until nth position in sequence
 const fib = n => {
-  
-
   if (n < 2) {
     return n;
   } else {
@@ -26,19 +24,162 @@ const fib = n => {
   }
 };
 
-console.log(fib(10));
+// console.log(fib(10));
 
 for (var i = 0; i <= 10; i++) {
-  console.log(fib(i));
+  // console.log(fib(i));
 }
 
 //But time complexity here is very high ==> avoid recursion
-//recursion puts stress on stack bc steps held in memory --> high space complexity 
+//recursion puts stress on stack bc steps held in memory --> high space complexity
 //graph pg. 188 ==> many of the same calls/passes to fib are repetitive
-  //idea: what if we could store what fib(6) was for example and sub that in when we 
-  //need it
+//idea: what if we could store what fib(6) was for example and sub that in when we
+//need it
 
 /*
 Memoization is caching ==> remembering solution to subproblem so you don't have to calc
 again recursively
+
+the following is time O(n)
+  iterating over items in for loop is O(n)
+  accessing is O(1) like O(n*1) so O(n)
+
+space complexity ==> O(n)
 */
+
+const fibFaster = n => {
+  var sequence = [0, 1];
+
+  for (var i = 2; i <= n; i++) {
+    sequence.push(sequence[i - 2] + sequence[i - 1]);
+  }
+
+  return sequence;
+};
+
+// console.log(fibFaster(10));
+
+//what if you just want nth number? not sequence?
+//make it "greedy" ==> how do we reduce amount we're storing
+
+const fibLessStorage = n => {
+  let minusTwo = 0;
+  let minusOne = 1;
+  let current;
+
+  for (let i = 2; i <= n; i++) {
+    current = minusTwo + minusOne;
+    minusTwo = minusOne;
+    minusOne = current;
+  }
+
+  return current;
+};
+
+// console.log(fibLessStorage(9));
+
+//adapted to use a callback to print out sequence
+const fibConstSpace = (n, callback) => {
+  let minusTwo = 0;
+  let minusOne = 1;
+  let current;
+
+  //only if callback provided
+  if (callback) {
+    callback(0);
+    callback(1);
+  }
+
+  for (let i = 2; i <= n; i++) {
+    current = minusTwo + minusOne;
+    minusTwo = minusOne;
+    minusOne = current;
+    callback(current);
+  }
+};
+
+fibConstSpace(10, function(result) {
+  console.log(result);
+});
+
+/*
+Callback review
+https://codeburst.io/javascript-what-the-heck-is-a-callback-aba4da2deced
+
+function executed after another function finished executing
+functions are objects
+  therefore functions can take other functions are arguments and be returned by other functions
+  higher order functions
+
+can use callbacks to make sure certain code doesn't execute until other code has already
+finished execution --> but order not maintained
+
+think when i made get requests I called get and then had a callback function executed with
+what to do with info when received
+*/
+
+// function cookFood(meal, callback) {
+//   console.log(`Mom is making ${meal}.`);
+//   callback();
+// }
+
+// cookFood("pasta", function() {
+//   console.log("dinner finished");
+// });
+
+// function notReady() {
+//   console.log("Dinner not ready.");
+// }
+
+// cookFood("cauliflower", notReady);
+
+//How can we make fib more flexible?
+//code above
+
+/*
+Examples of greedy algorithms
+  think about getting out of maze -- moving one hand on wall at a time until eventually
+  getting out, not keeping track of past is not necessarily optimal but it's reduces
+  space complexity in mem
+
+  think of agile development -- share update daily. doesn't always make a map or graph of
+  past updates about how you got there, not always optimal but is a solution
+
+
+********Bellman Ford********
+Use of graphs: optimization of path traversal
+if we apply weights to graphs we can run calculations on anything
+
+ex. finding shortest path between two vertices
+
+Example on page 195
+  Is edge weighted, directed
+  Find shortest path between S  and A through E (not all connected by just the shortest
+    paths to each item)
+
+*/
+
+var vertices = ["S", "A", "B", "C", "D", "E"];
+
+//memoization table
+//infinity indicates that we don't have a path to that vertice yet
+var memo = {
+  S: 0,
+  A: Number.POSITIVE_INFINITY,
+  B: Number.POSITIVE_INFINITY,
+  C: Number.POSITIVE_INFINITY,
+  D: Number.POSITIVE_INFINITY,
+  E: Number.POSITIVE_INFINITY
+};
+
+var graph = [
+  { from: "S", to: "A", cost: 4 },
+  { from: "S", to: "E", cost: -5 },
+  { from: "A", to: "c", cost: 6 },
+  { from: "C", to: "B", cost: -2 },
+  { from: "B", to: "A", cost: 3 },
+  { from: "S", to: "E", cost: -5 },
+  { from: "E", to: "D", cost: 8 },
+  { from: "D", to: "A", cost: 10 },
+  { from: "D", to: "C", cost: 3 }
+];
