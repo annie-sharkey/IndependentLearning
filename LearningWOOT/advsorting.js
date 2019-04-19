@@ -99,7 +99,7 @@ const fibConstSpace = (n, callback) => {
 };
 
 fibConstSpace(10, function(result) {
-  console.log(result);
+  // console.log(result);
 });
 
 /*
@@ -175,11 +175,101 @@ var memo = {
 var graph = [
   { from: "S", to: "A", cost: 4 },
   { from: "S", to: "E", cost: -5 },
-  { from: "A", to: "c", cost: 6 },
-  { from: "C", to: "B", cost: -2 },
+  { from: "A", to: "C", cost: 6 },
   { from: "B", to: "A", cost: 3 },
-  { from: "S", to: "E", cost: -5 },
-  { from: "E", to: "D", cost: 8 },
+  { from: "C", to: "B", cost: -2 },
+  { from: "D", to: "C", cost: 3 },
   { from: "D", to: "A", cost: 10 },
-  { from: "D", to: "C", cost: 3 }
+  { from: "E", to: "D", cost: 8 }
 ];
+
+/*
+We're calculating the distance between nodes and then remembering the smallest ones, the smallest
+path cost
+As we go through the graph we "relax" the values -- start with the highest values (infinity) and
+then relax the costs as we find shorter paths
+
+Iterate over our vertices
+Add the outgoing vertices to our calculations
+Move to the next vertice and count outgoing path
+  If we land on a value that is infinity then we don't have a path from S to that vertice yet
+  Move to next vertice
+
+
+*/
+
+const iterate = () => {
+  var doItAgain = false;
+
+  //get the first from vertice
+  //then filter our graph by values of the same
+  //want the edges that have the same from as the current vertex we're on
+  //vertices is an array and graph is an array of objects --> both iterable objects
+
+  for (fromVertex of vertices) {
+    console.log(fromVertex);
+    var edges = graph.filter(path => {
+      return path.from === fromVertex;
+    });
+    for (edge of edges) {
+      const potentialCost = memo[edge.from] + edge.cost;
+      if (potentialCost < memo[edge.to]) {
+        memo[edge.to] = potentialCost;
+        doItAgain = true;
+      }
+    }
+  }
+  return doItAgain;
+};
+
+for (vertex of vertices) {
+  if (!iterate()) break;
+}
+
+console.log(memo);
+
+/*
+Take aways: 
+  dynamic programming divides problem (finding the shortest path) into smaller sub problems
+  (calculating cost between each vertex)
+
+  then recurse over smaller problems (iterate) and use memoization from updating our objects
+  to find answer
+
+  can still improve above algorithm
+
+
+
+
+**********DJIKSTRA*************
+doesn't have negative weighted edges
+can run with one iteration
+
+each vertex only visited once
+next vertex must have the smallest cost of the remaining unvisited vertices
+
+keep track of things that have been visited
+*/
+
+class MemoTable {
+  constructor(vertices) {
+    this.S = { name: "S", cost: 0, visited: false };
+    this.table = [this.S];
+    for (var vertex of vertices) {
+      this.table.push({
+        name: vertex,
+        cost: Number.POSITIVE_INFINITY,
+        visited: false
+      });
+    }
+  }
+
+  //non visited
+  getNonVisitedVertices() {
+    return this.table.filter(vertice => {
+      return vertice.visited === false;
+    });
+  }
+
+  //return to this
+}
